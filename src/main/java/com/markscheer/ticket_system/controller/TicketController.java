@@ -3,7 +3,6 @@ package com.markscheer.ticket_system.controller;
 import com.markscheer.ticket_system.model.Ticket;
 import com.markscheer.ticket_system.repository.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.freemarker.FreeMarkerTemplateAvailabilityProvider;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
