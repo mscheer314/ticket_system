@@ -19,7 +19,7 @@ public class TicketController {
     @Autowired
     private TicketRepository ticketRepository;
 
-    @GetMapping("")
+    @GetMapping()
     public ResponseEntity<List<Ticket>> getAllTickets(@RequestParam(required = false) String title) {
         try {
             List<Ticket> tickets = new ArrayList<>();
