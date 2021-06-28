@@ -23,20 +23,30 @@ public class TicketController {
     @GetMapping()
     public ResponseEntity<List<Ticket>> getTickets(@RequestParam(required = false) Optional<Long> id) {
         try {
-            List<Ticket> tickets = new ArrayList<>();
 
-            if (id.isEmpty()) {
-                tickets.addAll(ticketRepository.findAll());
-            } else {
-                Long idValue = id.get();
-                Optional<Ticket> ticket = ticketRepository.findById(idValue);
-                tickets.add(ticket.get());
-            }
+            List<Ticket> tickets = new ArrayList<>(ticketRepository.findAll());
 
             if (tickets.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
 
+            return new ResponseEntity<>(tickets, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<List<Ticket>> getTicketByID(@PathVariable Long id) {
+        try {
+            List<Ticket> tickets = new ArrayList<>();
+
+            Optional<Ticket> ticket = ticketRepository.findById(id);
+            if (ticket.isPresent()) {
+                tickets.add(ticket.get());
+            } else {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
             return new ResponseEntity<>(tickets, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
