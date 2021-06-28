@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 // I don't know what this line does.
 //@CrossOrigin(origins = "https://localhost:8081")
@@ -20,14 +21,16 @@ public class TicketController {
     private TicketRepository ticketRepository;
 
     @GetMapping()
-    public ResponseEntity<List<Ticket>> getAllTickets(@RequestParam(required = false) String title) {
+    public ResponseEntity<List<Ticket>> getTickets(@RequestParam(required = false) Optional<Long> id) {
         try {
             List<Ticket> tickets = new ArrayList<>();
 
-            if (title == null) {
+            if (id.isEmpty()) {
                 tickets.addAll(ticketRepository.findAll());
             } else {
-                tickets.addAll(ticketRepository.findByTitleContaining(title));
+                Long idValue = id.get();
+                Optional<Ticket> ticket = ticketRepository.findById(idValue);
+                tickets.add(ticket.get());
             }
 
             if (tickets.isEmpty()) {
