@@ -8,11 +8,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 // I don't know what this line does.
-//@CrossOrigin(origins = "https://localhost:8081")
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/tickets")
 public class TicketController {
@@ -56,8 +57,8 @@ public class TicketController {
     @PostMapping("/create")
     public ResponseEntity<Ticket> createTicket(@RequestBody Ticket ticket) {
         try {
-            Ticket _ticket = ticketRepository
-                    .save(ticket);
+            ticket.setCreatedOn(new Date());
+            Ticket _ticket = ticketRepository.save(ticket);
             return new ResponseEntity<>(_ticket, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
