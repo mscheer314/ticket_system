@@ -3,6 +3,7 @@ package com.markscheer.ticket_system.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -31,11 +32,10 @@ public class Ticket {
 
     public Ticket() { }
 
-    public Ticket(String title, String description, Date createdOn, Date resolutionDate) {
+    public Ticket(String title, String description) {
         this.title = title;
         this.description = description;
-        this.createdOn = createdOn;
-        this.resolutionDate = resolutionDate;
+        this.createdOn = new Date();
     }
 
     public long getId() {

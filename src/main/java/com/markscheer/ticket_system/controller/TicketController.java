@@ -57,8 +57,7 @@ public class TicketController {
     public ResponseEntity<Ticket> createTicket(@RequestBody Ticket ticket) {
         try {
             Ticket _ticket = ticketRepository
-                    .save(new Ticket(ticket.getTitle(), ticket.getDescription(), ticket.getCreatedOn()
-                            , ticket.getResolutionDate()));
+                    .save(ticket);
             return new ResponseEntity<>(_ticket, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
