@@ -38,19 +38,13 @@ public class TicketController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<List<Ticket>> getTicketByID(@PathVariable Long id) {
-        try {
-            List<Ticket> tickets = new ArrayList<>();
+    public ResponseEntity<Ticket> getTicketByID(@PathVariable Long id) {
 
             Optional<Ticket> ticket = ticketRepository.findById(id);
             if (ticket.isPresent()) {
-                tickets.add(ticket.get());
+                return new ResponseEntity<>(ticket.get(), HttpStatus.OK);
             } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-            return new ResponseEntity<>(tickets, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
