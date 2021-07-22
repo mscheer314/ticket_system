@@ -58,4 +58,28 @@ public class TicketController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Ticket> updateTicket(@PathVariable("id") long id, @RequestBody Ticket ticket) {
+        Optional<Ticket> ticketData =ticketRepository.findById(id);
+
+        if (ticketData.isPresent()) {
+            Ticket _ticket = ticketData.get();
+            _ticket.setTitle(ticket.getTitle());
+            _ticket.setDescription(ticket.getDescription());
+            return new ResponseEntity<>(ticketRepository.save(_ticket), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<HttpStatus> deleteTutorial(@PathVariable("id") long id) {
+        try {
+            ticketRepository.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
